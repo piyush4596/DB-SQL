@@ -74,6 +74,26 @@ app.get("/user", (req, res) => {
   }
 });
 
+// add user
+app.get("/user/new", (req, res) => {
+  res.render("new.ejs");
+});
+
+app.post("/user", (req, res) => {
+  let { id, username, email, password } = req.body;
+  let data = [id, username, email, password];
+  let q3 = "INSERT INTO user (id, username, email, password) VALUES (?,?,?,?)";
+  try {
+    connection.query(q3, data, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  res.redirect("/user");
+});
+
 // edit route
 app.get("/user/:id/edit", (req, res) => {
   let { id } = req.params;
